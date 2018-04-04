@@ -57,7 +57,7 @@ public class Lancamento implements Serializable {
 	public void setData(Date data) {
 		this.data = data;
 	}
-	@Column(name="data", nullable=true)
+	@Column(name="descricao", nullable=true)
 	public String getDescricao() {
 		return descricao;
 	}
