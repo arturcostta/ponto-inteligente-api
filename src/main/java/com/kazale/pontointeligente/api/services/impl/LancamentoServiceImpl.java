@@ -7,11 +7,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 
 import com.kazale.pontointeligente.api.entities.Lancamento;
 import com.kazale.pontointeligente.api.repositories.LancamentoRepository;
 import com.kazale.pontointeligente.api.services.LancamentoService;
-
+@Service
 public class LancamentoServiceImpl implements LancamentoService {
 	
 	private static final Logger log = LoggerFactory.getLogger(FuncionarioServiceImpl.class);
@@ -28,7 +29,7 @@ public class LancamentoServiceImpl implements LancamentoService {
 	@Override
 	public Optional<Lancamento> buscarPorId(Long id) {
 		log.info("Buscando lançamentos por id {}",id);
-		return this.lancRepository.findById(id);
+		return Optional.ofNullable( this.lancRepository.findOne(id) );
 	}
 	
 	

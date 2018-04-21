@@ -40,7 +40,7 @@ private static final Logger log = LoggerFactory.getLogger(FuncionarioServiceImpl
 	@Override
 	public Optional<Funcionario> buscarPorId(Long id) {
 		log.info("Buscando funcionario pelo id {}",id);
-		return this.funcionarioRepository.findById(id);
-	}
+		return Optional.ofNullable( this.funcionarioRepository.findOne(id) );
+	};
 
 }

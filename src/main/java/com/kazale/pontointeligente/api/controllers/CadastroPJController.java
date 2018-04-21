@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kazale.pontointeligente.api.dtos.CadastroPJDto;
 import com.kazale.pontointeligente.api.entities.Empresa;
 import com.kazale.pontointeligente.api.entities.Funcionario;
+import com.kazale.pontointeligente.api.enums.PerfilEnum;
 import com.kazale.pontointeligente.api.response.Response;
 import com.kazale.pontointeligente.api.services.EmpresaService;
 import com.kazale.pontointeligente.api.services.FuncionarioService;
+import com.kazale.pontointeligente.api.utils.PasswordUtils;
 
 @RestController
 @RequestMapping("/api/cadastrar-pj")
@@ -65,8 +67,26 @@ public class CadastroPJController {
 		this.empresaService.persistir(empresa);
 		funcionario.setEmpresa(empresa);
 		this.funcionarioService.persistir(funcionario);
+		
+		response.setData(this.converterCadastroPJDto(funcionario));
+		return ResponseEntity.ok(response);
+	}
 
-		return null;
+	/**
+	 * Popupa o dto de cadastro com os dados do funcionario e empresa
+	 * @param funcionario
+	 * @return
+	 */
+	private CadastroPJDto converterCadastroPJDto(Funcionario funcionario) {
+		CadastroPJDto cadastroPJDto = new CadastroPJDto();
+		cadastroPJDto.setId(funcionario.getId());
+		cadastroPJDto.setNome(funcionario.getNome());
+		cadastroPJDto.setEmail(funcionario.getEmail());
+		cadastroPJDto.setCpf(funcionario.getCpf());
+		cadastroPJDto.setRazaoSocial(funcionario.getEmpresa().getRazaoSocial());
+		cadastroPJDto.setCnpj(funcionario.getEmpresa().getCnpj());
+		
+		return cadastroPJDto;
 	}
 
 	/**
@@ -74,9 +94,14 @@ public class CadastroPJController {
 	 * @param cadastroPJDto
 	 * @return
 	 */
-	private Funcionario convertDtoParaFuncionario(@Valid CadastroPJDto cadastroPJDto) {
-		// TODO Auto-generated method stub
-		return null;
+	private Funcionario convertDtoParaFuncionario(@Valid CadastroPJDto cadastroPJDto) throws NoSuchAlgorithmException{
+		Funcionario funcionario = new Funcionario();
+		funcionario.setNome(cadastroPJDto.getNome());
+		funcionario.setEmail(cadastroPJDto.getEmail());
+		funcionario.setCpf(cadastroPJDto.getCpf());
+		funcionario.setPerfil(PerfilEnum.ROLE_ADMIN);
+		funcionario.setSenha(PasswordUtils.gerarBCrypt(cadastroPJDto.getSenha()));
+		return funcionario;
 	}
 
 	/**
@@ -84,9 +109,11 @@ public class CadastroPJController {
 	 * @param cadastroPJDto
 	 * @return
 	 */
-	private Empresa convertDtoParaEmpresa(@Valid CadastroPJDto cadastroPJDto) {
-		// TODO Auto-generated method stub
-		return null;
+	private Empresa convertDtoParaEmpresa(@Valid CadastroPJDto cadastroPJDto) throws NoSuchAlgorithmException{
+		Empresa empresa = new Empresa();
+		empresa.setCnpj(cadastroPJDto.getCnpj());
+		empresa.setRazaoSocial(cadastroPJDto.getRazaoSocial());
+		return empresa;
 	}
 
 	/**
