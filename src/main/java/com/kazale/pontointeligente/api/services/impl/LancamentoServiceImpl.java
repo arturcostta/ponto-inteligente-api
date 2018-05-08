@@ -40,10 +40,9 @@ public class LancamentoServiceImpl implements LancamentoService {
 		return this.lancRepository.save(lancamento);
 	}
 
-	@Override
-	public void remover(Lancamento lancamento) {
-		log.info("Removendo um lançamento {}",lancamento);
-		this.lancRepository.delete(lancamento);
+	public void remover(Long id) {
+		log.info("Removendo um lançamento {}",id);
+		this.lancRepository.delete(id);
 	}
 
 }
