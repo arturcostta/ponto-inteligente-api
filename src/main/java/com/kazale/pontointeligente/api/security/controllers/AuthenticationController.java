@@ -28,6 +28,7 @@ import com.kazale.pontointeligente.api.security.dto.JwtAuthenticationDto;
 import com.kazale.pontointeligente.api.security.dto.TokenDto;
 import com.kazale.pontointeligente.api.utils.JwtTokenUtil;
 
+
 @RestController
 @RequestMapping("/auth")
 @CrossOrigin(origins = "*")
